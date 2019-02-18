@@ -16,7 +16,7 @@ Basic examples and tests are included.
 
 ### Install ###
 
-There are a few ways you can get and use the `text-encoding` library.
+There are a few ways you can get and use the `@sinonjs/text-encoding` library.
 
 ### HTML Page Usage ###
 
@@ -34,7 +34,7 @@ you should probably use a different library.
 
 #### Package Managers ####
 
-The package is published to **npm** and **bower** as `@sinonjs/text-encoding`.
+The package is published to **npm** as `@sinonjs/text-encoding`.
 Use through these is not really supported, since they aren't used by
 the developer of the library. Using `require()` in interesting ways
 probably breaks. Patches welcome, as long as they don't break the
