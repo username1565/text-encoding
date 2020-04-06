@@ -1,0 +1,106 @@
+Try to fix LATIN-1 encoding ("iso-8859-1"). See console.log(F12 button).
+<!--
+<script src="https://unpkg.com/text-encoding@0.6.4/lib/encoding-indexes.js"></script>
+<script src="https://unpkg.com/text-encoding@0.6.4/lib/encoding.js"></script>
+-->
+
+<!--
+<script src="https://raw.githubusercontent.com/inexorabletash/text-encoding/master/lib/encoding-indexes.js"></script>
+<script src="https://raw.githubusercontent.com/inexorabletash/text-encoding/master/lib/encoding.js"></script>
+-->
+
+<script src="encoding-indexes.js"></script>
+<script src="encoding.js"></script>
+
+<script>
+console.log((new TextDecoder().decode(new TextEncoder().encode('text')) === 'text'));
+
+function compare(a, b){for(var i = a.length; -1 < i; i -= 1){if ((a[i] !== b[i])){return false;}}return true;} //compare two Uint8Arrays
+
+var allBytes = new Uint8Array(256); for(var i = 0; i<allBytes.length; i++){allBytes[i] = i;}	//generate all 256 bytes in Uint8Array.
+
+try{
+	var decoded;
+	try{
+		var decoded = new TextDecoder('iso-8859-1').decode(allBytes);
+	}
+	catch(ex){
+		console.log(ex.message);
+	}
+	
+	try{
+		var encoded = new TextEncoder('iso-8859-1').encode(decoded);
+	}
+	catch(ex){
+		console.log(ex.message);
+	}
+	
+	if(typeof encoded === 'undefined'){
+		var test = false;
+	}
+	else{
+		var test = compare(encoded, allBytes);
+	}
+	
+}catch(ex){
+	console.log('TextEncoder or TextDecoder not working correctly!!! ex: ', ex.message);
+}
+
+console.log(
+	'test TextEncoder and TextDecoder:\n',
+	"compare(new TextEncoder('iso-8859-1').encode(new TextDecoder('iso-8859-1').decode(allBytes)), allBytes): ",
+	compare(new TextEncoder('iso-8859-1').encode(new TextDecoder('iso-8859-1').decode(allBytes)), allBytes)
+);
+
+if(test === false){	//false!
+	//try to fix this:
+	function Uint8ToLatin1Str(Uint8Arr){
+		return new TextDecoder("iso-8859-1").decode(Uint8Arr);
+	}
+
+	function Latin1StrToUint8(Latin1Str){
+		var replaceCharCodesForLatin1 = {
+			//'character'	:		iso-8859-1 charcode,	//Unicode charcode(commented)
+				'€'			:		128,					//8364, 
+				'‚'			:		130,					//8218, 
+				'ƒ'			:		131,					//402, 
+				'„'			:		132,					//8222,
+				'…'			:		133,					//8230, 
+				'†'			:		134,					//8224,	
+				'‡'			:		135,					//8225, 
+				'ˆ'			:		136,					//710, 
+				'‰'			:		137,					//8240, 
+				'Š'			:		138,					//352, 
+				'‹'			:		139,					//8249, 
+				'Œ'			:		140,					//338, 
+				'Ž'			:		142,					//381, 
+				'‘'			:		145,					//8216, 
+				'’'			:		146,					//8217, 
+				'“'			:		147,					//8220, 
+				'”'			:		148,					//8221, 
+				'•'			:		149,					//8226, 
+				'–'			:		150,					//8211, 
+				'—'			:		151,					//8212, 
+				'˜'			:		152,					//732, 
+				'™'			:		153,					//8482, 
+				'š'			:		154,					//353, 
+				'›'			:		155,					//8250, 
+				'œ'			:		156,					//339, 
+				'ž'			:		158,					//382, 
+				'Ÿ'			:		159,					//376
+		};
+	
+		var resultUint8 = new Uint8Array(Latin1Str.length);
+		for(var i = 0; i<Latin1Str.length; i++){
+			var charCode = Latin1Str[i].charCodeAt(0);
+			resultUint8[i] = ((charCode>256) ? replaceCharCodesForLatin1[Latin1Str[i]] : charCode);
+		}
+		return resultUint8;
+	}
+
+	console.log('Fix false - (compare(Latin1StrToUint8(Uint8ToLatin1Str(allBytes)), allBytes)): ', (compare(Latin1StrToUint8(Uint8ToLatin1Str(allBytes)), allBytes)));
+}
+else{
+	console.log('No problem. The TextEncoder and TextDecoder is supporting Latin1 encoding (iso-8859-1) in your browser.');
+}
+</script>
