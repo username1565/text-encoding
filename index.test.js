@@ -3,48 +3,48 @@ const puppeteer = require('puppeteer');
 
 describe('Open ProntoTools Website', () => {
 
-    let browser, page;
-    const url = 'http://localhost:8000/test'
+  let browser, page;
+  const url = 'http://localhost:8000/test'
 
-    beforeEach(async () => {
-        browser = await puppeteer.launch();
-        page = await browser.newPage();
-    })
+  beforeEach(async () => {
+    browser = await puppeteer.launch();
+    page = await browser.newPage();
+  })
 
-    it('testharness', async () => {
+  it('testharness', async () => {
 
-        await page.goto(url);
+    await page.goto(url);
 
-        // Extract the results from the page
-        const results = await page.evaluate(() => {
+    // Extract the results from the page
+    const results = await page.evaluate(() => {
 
-            const getCellTrimmed = (tr, index) =>
-                (tr.children[index].textContent || '').trim();
+      const getCellTrimmed = (tr, index) =>
+        (tr.children[index].textContent || '').trim();
 
-            const resultsTable = document
-                .getElementById('results')
-                .querySelectorAll('tbody > tr');
+      const resultsTable = document
+        .getElementById('results')
+        .querySelectorAll('tbody > tr');
 
-            const results = Array
-                .from(resultsTable)
-                .map(tr => {
-                    const result = tr.children[0].textContent;
-                    const testName = getCellTrimmed(tr, 1);
-                    const message = getCellTrimmed(tr, 2);
-                    const passed = result == 'Pass';
+      const results = Array
+        .from(resultsTable)
+        .map(tr => {
+          const result = tr.children[0].textContent;
+          const testName = getCellTrimmed(tr, 1);
+          const message = getCellTrimmed(tr, 2);
+          const passed = result == 'Pass';
 
-                    return { result, passed, testName, message, }
-                });
-
-            return results;
+          return { result, passed, testName, message, }
         });
 
-        results.forEach(result => {
-            expect(result.passed).toBe(true);
-        })
+      return results;
     });
 
-    afterAll(async () => {
-        await browser.close();
+    results.forEach(result => {
+      expect(result.passed).toBe(true);
     })
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  })
 })

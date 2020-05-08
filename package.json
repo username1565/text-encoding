@@ -39,8 +39,7 @@
     "puppeteer": "^3.0.4"
   },
   "scripts": {
-    "test:prepare": "git submodule init && git submodule update --checkout && python -m SimpleHTTPServer &",
-    "test:assert": "jest",
-    "test": "yarn test:prepare && yarn test:assert"
+    "test:serve": "git submodule init && git submodule update --checkout && python -m SimpleHTTPServer &",
+    "test": "yarn test:serve && jest"
   }
 }
