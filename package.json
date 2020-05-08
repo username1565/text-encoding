@@ -33,5 +33,14 @@
     "url": "https://github.com/inexorabletash/text-encoding/issues"
   },
   "homepage": "https://github.com/inexorabletash/text-encoding",
-  "license": "(Unlicense OR Apache-2.0)"
+  "license": "(Unlicense OR Apache-2.0)",
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "puppeteer": "^3.0.4"
+  },
+  "scripts": {
+    "test:prepare": "git submodule init && git submodule update --checkout && python -m SimpleHTTPServer &",
+    "test:assert": "jest",
+    "test": "yarn test:prepare && yarn test:assert"
+  }
 }
