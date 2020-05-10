@@ -51,7 +51,8 @@
     "build:umd:min": "cd dist/umd && uglifyjs --compress --mangle --screw-ie8 --comments -o text-encoding.min.js -- text-encoding.js && gzip text-encoding.min.js -c > text-encoding.min.js.gz",
     "test:serve": "cd ./test && git submodule init && git submodule update --checkout && ../test-server.sh",
     "test:integration": "yarn jest __tests__",
-    "test": "yarn test:serve && jest"
+    "test": "yarn test:serve && jest",
+    "test:only": "jest"
   },
   "dependencies": {
     "uglify-js": "^3.9.2"
