@@ -1,10 +1,11 @@
-import { decoders } from "..";
-import { Decoder, Stream } from "../common";
+import { DEFAULT_ENCODING } from "../encoding/defaultEncoding";
+import { decoders } from "../encoding/encoding-factory";
 import { getEncoding } from "../encoding/encodings";
+import { finished } from "../encoding/finished";
 import { end_of_stream } from "../encoding/terminology";
 import { codePointsToString, includes, ToDictionary } from "../encoding/utilities";
-import { DEFAULT_ENCODING } from "../encoding/defaultEncoding";
-import { finished } from "../encoding/finished";
+import { Decoder } from "./Decoder";
+import { Stream } from "./Stream";
 
 /**
  * @constructor
