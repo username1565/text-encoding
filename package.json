@@ -35,6 +35,7 @@
   "homepage": "https://github.com/inexorabletash/text-encoding",
   "license": "(Unlicense OR Apache-2.0)",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^7.1.3",
     "http-server": "^0.12.3",
     "jest": "^26.0.1",
     "puppeteer": "^3.0.4",
@@ -46,10 +47,13 @@
     "build:es2015": "tsc --module es2015 --target es2015 --outDir dist/es2015",
     "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
     "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
-    "build:umd": "rollup dist/esm/index.js --format umd --name TextEncoding --sourceMap --output dist/umd/index.js",
-    "build:umd:min": "cd dist/umd && uglifyjs --compress --mangle --source-map --screw-ie8 --comments --o text-encoding.min.js -- text-encoding.js && gzip text-encoding.min.js -c > text-encoding.min.js.gz",
+    "build:umd": "rollup dist/esm/index.js -f umd --name TextEncoding -m -p @rollup/plugin-node-resolve -o dist/umd/text-encoding.js",
+    "build:umd:min": "cd dist/umd && uglifyjs --compress --mangle --screw-ie8 --comments -o text-encoding.min.js -- text-encoding.js && gzip text-encoding.min.js -c > text-encoding.min.js.gz",
     "test:serve": "cd ./test && git submodule init && git submodule update --checkout && ../test-server.sh",
     "test:integration": "yarn jest __tests__",
     "test": "yarn test:serve && jest"
+  },
+  "dependencies": {
+    "uglify-js": "^3.9.2"
   }
 }
