@@ -1,6 +1,6 @@
-import { encodingIndexes } from "../encodingIndexes";
 import { getArrayVal } from "../helper/getArrayVal";
 import { inRange } from "./utilities";
+import { getEncodingIndexes } from "./encoding-indexes-provider";
 
 /**
  * @param {number} pointer The |pointer| to search for.
@@ -29,9 +29,10 @@ export function indexPointerFor(code_point: number, index: Array<number | null>)
  * @return {(!Array.<number>|!Array.<Array.<number>>)}
  *  */
 export function index(name: string): number[] | number[][] {
+  const encodingIndexes = getEncodingIndexes();
   if (!encodingIndexes) {
     throw Error("Indexes missing." +
-      " Did you forget to include encodingIndexes.js first?");
+      " Did you forget to include encoding-indexes.js first?");
   }
   return encodingIndexes[name];
 }

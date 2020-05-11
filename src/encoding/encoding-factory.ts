@@ -15,6 +15,7 @@ import { Decoder } from '../common/Decoder';
 import { Encoder } from '../common/Encoder';
 import { encodings } from './encodings';
 import { index } from './indexes';
+import { getEncodingIndexes } from './encoding-indexes-provider';
 
 
 //
@@ -46,13 +47,7 @@ import { index } from './indexes';
 
 // import './encoding/indexes';
 
-type EncodingIndexMap = {
-  [x: string]: number[];
-};
-
-declare const encodingIndexes: EncodingIndexMap;
-
-const EncodingIndexes: EncodingIndexMap = encodingIndexes ? encodingIndexes : ('encodingIndexes' in global ? global['encodingIndexes'] : null);
+const encodingIndexes = getEncodingIndexes();
 
 //
 // 8. API
@@ -98,7 +93,7 @@ decoders['UTF-8'] = function (options: { fatal: boolean; }) {
 
 // 10.2 single-byte encoder
 
-if (EncodingIndexes && EncodingIndexes.length) {
+if (encodingIndexes && encodingIndexes.length) {
   encodings.forEach(function (category) {
     if (category.heading !== 'Legacy single-byte encodings')
       return;
@@ -294,5 +289,5 @@ decoders['x-user-defined'] = function (options: { fatal: boolean; }) {
   return new XUserDefinedDecoder(options);
 };
 
-export { decoders, encoders, EncodingIndexes };
+export { decoders, encoders };
 
