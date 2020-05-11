@@ -4,8 +4,10 @@ import { getEncoding } from "../encoding/encodings";
 import { finished } from "../encoding/finished";
 import { end_of_stream } from "../encoding/terminology";
 import { stringToCodePoints, ToDictionary } from "../encoding/utilities";
+import { getGlobalScope } from "../helper/getGlobalScope";
 import { Encoder } from "./Encoder";
 import { Stream } from "./Stream";
+
 
 /**
  * @constructor
@@ -59,7 +61,9 @@ export class TextEncoder {
       // Standard behavior.
       enc._encoding = getEncoding('utf-8');
 
-      if (label !== undefined && 'console' in global) {
+      const glo = getGlobalScope() || {};
+
+      if (label !== undefined && 'console' in glo) {
         console.warn('TextEncoder constructor called with encoding label, '
           + 'which is ignored.');
       }
