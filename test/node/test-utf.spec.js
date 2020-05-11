@@ -7,7 +7,8 @@ const {
   assert_array_equals,
 } = require('../../util/assert-package.js');
 
-const { TextDecoder, TextEncoder } = require('../lib/encoding');
+require('../../dist/umd/encoding-indexes');
+const { TextDecoder, TextEncoder } = require('../../dist/umd/encoding');
 
 // Extension to testharness.js API which avoids logging enormous strings
 // on a coding failure.

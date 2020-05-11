@@ -5,7 +5,8 @@ const {
   assert_equals,
 } = require('../../util/assert-package.js');
 
-const { TextDecoder, TextEncoder } = require('../lib/encoding');
+require('../../dist/umd/encoding-indexes');
+const { TextDecoder, TextEncoder } = require('../../dist/umd/encoding');
 
 describe('x-user-defined encoding', () => {
   it('x-user-defined encoding', () => {

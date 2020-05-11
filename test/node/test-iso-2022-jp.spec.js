@@ -5,7 +5,8 @@ const {
   assert_equals,
 } = require('../../util/assert-package.js');
 
-const { TextDecoder } = require('../lib/encoding');
+require('../../dist/umd/encoding-indexes');
+const { TextDecoder } = require('../../dist/umd/encoding');
 
 describe("ISO 2022 JP", () => {
   it("iso-2022-jp", () => {
