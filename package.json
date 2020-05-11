@@ -14,12 +14,8 @@
   ],
   "version": "0.7.1",
   "description": "Polyfill for the Encoding Living Standard's API.",
-  "main": "index.js",
-  "files": [
-    "index.js",
-    "lib/encoding.js",
-    "lib/encoding-indexes.js"
-  ],
+  "main": "dist/cjs/encoding.js",
+  "browser": "dist/es2015/encoding.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/inexorabletash/text-encoding.git"
