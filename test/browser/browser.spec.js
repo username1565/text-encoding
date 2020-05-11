@@ -1,10 +1,10 @@
 const assert = require('assert');
 const puppeteer = require('puppeteer');
 
-describe('Open ProntoTools Website', () => {
+describe('Check library browser test results', () => {
 
   let browser, page;
-  const url = 'http://localhost:8000/test'
+  const url = 'http://localhost:8000/test/browser'
 
   beforeEach(async () => {
     browser = await puppeteer.launch();
