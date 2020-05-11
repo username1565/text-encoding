@@ -46,9 +46,13 @@ import { index } from './indexes';
 
 // import './encoding/indexes';
 
-declare const encodingIndexes: { [x: string]: number[] };
+type EncodingIndexMap = {
+  [x: string]: number[];
+};
 
-const EncodingIndexes: { [x: string]: number[] } = encodingIndexes != null ? encodingIndexes : ('encodingIndexes' in global ? global['encodingIndexes'] : null);
+declare const encodingIndexes: EncodingIndexMap;
+
+const EncodingIndexes: EncodingIndexMap = encodingIndexes ? encodingIndexes : ('encodingIndexes' in global ? global['encodingIndexes'] : null);
 
 //
 // 8. API
