@@ -23,7 +23,8 @@
   "keywords": [
     "encoding",
     "decoding",
-    "living standard"
+    "living standard",
+    "polyfill"
   ],
   "bugs": {
     "url": "https://github.com/inexorabletash/text-encoding/issues"
@@ -36,7 +37,7 @@
     "jest": "^26.0.1",
     "puppeteer": "^3.0.4",
     "rollup": "^2.8.2",
-    "uglifyjs": "^2.4.11"
+    "uglify-js": "^3.9.2"
   },
   "scripts": {
     "build": "yarn build:es2015 && yarn build:esm && yarn build:cjs && yarn build:umd && yarn build:umd:min",
@@ -47,7 +48,7 @@
     "build:umd:min": "yarn build:umd:encoding:min && yarn build:umd:indexes:min",
     "build:umd:encoding": "rollup dist/esm/encoding.js -f umd --name TextEncoding -m -p @rollup/plugin-node-resolve -o dist/umd/encoding.js",
     "build:umd:encoding:min": "cd dist/umd && uglifyjs --compress --mangle --screw-ie8 --comments -o encoding.min.js -- encoding.js && gzip encoding.min.js -c > encoding.min.js.gz",
-    "build:umd:indexes": "rollup dist/esm/encodingIndexes.js -f umd --name TextEncodingIndexes -m -p @rollup/plugin-node-resolve -o dist/umd/encoding-indexes.js",
+    "build:umd:indexes": "rollup dist/esm/encoding-indexes.js -f umd --name TextEncodingIndexes -m -p @rollup/plugin-node-resolve -o dist/umd/encoding-indexes.js",
     "build:umd:indexes:min": "cd dist/umd && uglifyjs --compress --mangle --screw-ie8 --comments -o encoding-indexes.min.js -- encoding-indexes.js && gzip encoding-indexes.min.js -c > encoding-indexes.min.js.gz",
     "test:serve": "yarn testharness:update && ./test-server.sh",
     "test": "yarn test:serve && jest",
