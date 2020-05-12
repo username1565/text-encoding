@@ -278,12 +278,12 @@ describe('Miscellaneous tests', () => {
 
       assert_equals(new TextEncoder(encoding).encoding, 'utf-8');
 
-      assert_throws({ name: 'RangeError' },
+      assert_throws(RangeError,
         function () {
           var decoder = new TextDecoder(encoding, { fatal: true });
         });
 
-      assert_throws({ name: 'RangeError' },
+      assert_throws(RangeError,
         function () {
           var decoder = new TextDecoder(encoding, { fatal: false });
         });
@@ -316,7 +316,7 @@ describe('Miscellaneous tests', () => {
   });
 
   it('Invalid parameters', () => {
-    assert_throws({ name: 'RangeError' },
+    assert_throws(RangeError,
       function () { new TextDecoder(null); },
       'Null should coerce to "null" and be invalid encoding name.');
 
@@ -359,7 +359,7 @@ describe('Miscellaneous tests', () => {
   it('NONSTANDARD - gb18030: U+E5E5 (encoding)', () => {
     // Regression test for https://github.com/whatwg/encoding/issues/17
     assert_throws(
-      new TypeError,
+      TypeError,
       function () {
         new TextEncoder('gb18030', { NONSTANDARD_allowLegacyEncoding: true })
           .encode('\uE5E5');
@@ -376,7 +376,7 @@ describe('Miscellaneous tests', () => {
       //'\u000E', '\u000F', '\u001B',
       '\u00A5\u000E', //'\u00A5\u000F',  '\u00A5\u001B'
     ].forEach(function (s) {
-      assert_throws(new TypeError, function () { encoder.encode(s); });
+      assert_throws(TypeError, function () { encoder.encode(s); });
     });
 
   });
