@@ -32,9 +32,6 @@ export class TextEncoder {
   private _fatal: string;
 
   constructor(label: string | undefined, options: TextEncoderOptions = undefined) {
-    // Web IDL conventions
-    if (!(this instanceof TextEncoder))
-      throw TypeError('Called as a function. Did you forget \'new\'?');
     
     const optionsMap = ToDictionary(options);
 

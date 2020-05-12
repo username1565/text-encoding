@@ -27,9 +27,7 @@ export class TextDecoder {
   private _do_not_flush: boolean;
 
   constructor(label: string | undefined, options: object | undefined) {
-    // Web IDL conventions
-    if (!(this instanceof TextDecoder))
-      throw TypeError('Called as a function. Did you forget \'new\'?');
+
     label = label !== undefined ? String(label) : DEFAULT_ENCODING;
     options = ToDictionary(options);
 
