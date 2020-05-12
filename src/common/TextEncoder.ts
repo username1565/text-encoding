@@ -9,6 +9,16 @@ import { Encoder } from "./Encoder";
 import { Stream } from "./Stream";
 
 
+type TextEncoderOptions = {
+  [x: string]: any;
+  NONSTANDARD_allowLegacyEncoding: boolean;
+  fatal: boolean;
+};
+
+type EncodeOptions = {
+  stream: boolean;
+};
+
 /**
  * @constructor
  * @param {string=} label The label of the encoding. NONSTANDARD.
@@ -21,11 +31,12 @@ export class TextEncoder {
   private _do_not_flush: boolean;
   private _fatal: string;
 
-  constructor(label: string | undefined, options: object | undefined) {
+  constructor(label: string | undefined, options: TextEncoderOptions = undefined) {
     // Web IDL conventions
     if (!(this instanceof TextEncoder))
       throw TypeError('Called as a function. Did you forget \'new\'?');
-    options = ToDictionary(options);
+    
+    const optionsMap = ToDictionary(options);
 
     // A TextEncoder object has an associated encoding and encoder.
 
@@ -38,13 +49,15 @@ export class TextEncoder {
     /** @private @type {boolean} */
     this._do_not_flush = false;
     /** @private @type {string} */
-    this._fatal = Boolean(options['fatal']) ? 'fatal' : 'replacement';
+    this._fatal = Boolean(optionsMap['fatal']) ? 'fatal' : 'replacement';
 
     // 1. Let enc be a new TextEncoder object.
-    const enc = this;
+    // const enc = this;
+    // no need to do this as this is a proper class 
+    // now and TSC will handle transpilation to older platforms
 
     // 2. Set enc's encoding to UTF-8's encoder.
-    if (Boolean(options['NONSTANDARD_allowLegacyEncoding'])) {
+    if (Boolean(optionsMap['NONSTANDARD_allowLegacyEncoding'])) {
       // NONSTANDARD behavior.
       label = label !== undefined ? String(label) : DEFAULT_ENCODING;
       const encoding = getEncoding(label);
@@ -52,14 +65,14 @@ export class TextEncoder {
         throw RangeError('Unknown encoding: ' + label);
       if (!encoders[encoding.name]) {
         throw Error('Encoder not present.' +
-          ' Did you forget to include encodingIndexes.js first?');
+          ' Did you forget to include encoding-indexes.js first?');
       }
-      enc._encoding = encoding;
+      this._encoding = encoding;
     } else if (["iso-8859-1", "ISO-8859-1", "latin-1", "latin1", "LATIN-1", "LATIN1"].indexOf(label) !== -1) {
-      enc._encoding = getEncoding('iso-8859-1');
+      this._encoding = getEncoding('iso-8859-1');
     } else {
       // Standard behavior.
-      enc._encoding = getEncoding('utf-8');
+      this._encoding = getEncoding('utf-8');
 
       const glo = getGlobalScope() || {};
 
@@ -74,7 +87,7 @@ export class TextEncoder {
     // this.encoding = enc._encoding.name.toLowerCase();
 
     // 3. Return enc.
-    return enc;
+    // return enc;
   }
 
   // if(Object.defineProperty) {
@@ -93,9 +106,9 @@ export class TextEncoder {
    * @param {Object=} options
    * @return {!Uint8Array} Encoded bytes, as a Uint8Array.
    */
-  encode(opt_string: string | undefined, options: object | undefined): Uint8Array {
+  encode(opt_string: string | undefined, options: EncodeOptions = undefined): Uint8Array {
     opt_string = opt_string === undefined ? '' : String(opt_string);
-    options = ToDictionary(options);
+    const optionsMap = ToDictionary(options);
 
     // NOTE: This option is nonstandard. None of the encodings
     // permitted for encoding (i.e. UTF-8, UTF-16) are stateful when
@@ -104,7 +117,7 @@ export class TextEncoder {
       this._encoder = encoders[this._encoding.name]({
         fatal: this._fatal === 'fatal'
       });
-    this._do_not_flush = Boolean(options['stream']);
+    this._do_not_flush = Boolean(optionsMap['stream']);
 
     // 1. Convert input to a stream.
     const input = new Stream(stringToCodePoints(opt_string));

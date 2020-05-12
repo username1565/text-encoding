@@ -2,18 +2,20 @@ import { end_of_stream } from "../encoding/terminology";
 
 /**
  * A stream represents an ordered sequence of tokens.
- *
- * @constructor
- * @param {!(Array.<number>|Uint8Array)} tokens Array of tokens that provide
- * the stream.
  */
 export class Stream {
 
   tokens: number[];
 
-  constructor(tokens) {
+  /**
+   * 
+   * @constructor
+   * @param {!(Array.<number>|Uint8Array)} tokens Array of tokens that provide
+   * the stream.
+   */
+  constructor(tokens: number[] | Uint8Array) {
     /** @type {!Array.<number>} */
-    this.tokens = [].slice.call(tokens);
+    this.tokens = Array.from(tokens);
     // Reversed as push/pop is more efficient than shift/unshift.
     this.tokens.reverse();
   }
@@ -57,7 +59,7 @@ export class Stream {
       this.tokens.push(token);
     }
   }
-  
+
   /**
    * When one or more tokens are pushed to a stream, those tokens
    * must be inserted, in given order, after the last token in the

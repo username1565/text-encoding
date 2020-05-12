@@ -7,6 +7,7 @@ import { codePointsToString, includes, ToDictionary } from "../encoding/utilitie
 import { Decoder } from "./Decoder";
 import { Stream } from "./Stream";
 
+
 /**
  * @constructor
  * @param {string=} label The label of the encoding;
@@ -60,24 +61,26 @@ export class TextDecoder {
       throw RangeError('Unknown encoding: ' + label);
     if (!decoders[encoding.name]) {
       throw Error('Decoder not present.' +
-        ' Did you forget to include encodingIndexes.js first?');
+        ' Did you forget to include encoding-indexes.js first?');
     }
 
     // 3. Let dec be a new TextDecoder object.
-    const dec = this;
+    // const dec = this;
+    // no need to do this as this is a proper class 
+    // now and TSC will handle transpilation to older platforms
 
     // 4. Set dec's encoding to encoding.
-    dec._encoding = encoding;
+    this._encoding = encoding;
 
     // 5. If options's fatal member is true, set dec's error mode to
     // fatal.
     if (Boolean(options['fatal']))
-      dec._error_mode = 'fatal';
+      this._error_mode = 'fatal';
 
     // 6. If options's ignoreBOM member is true, set dec's ignore BOM
     // flag.
     if (Boolean(options['ignoreBOM']))
-      dec._ignoreBOM = true;
+      this._ignoreBOM = true;
 
     // For pre-ES5 runtimes:
     // if (!Object.defineProperty) {
@@ -87,7 +90,7 @@ export class TextDecoder {
     // }
 
     // 7. Return dec.
-    return dec;
+    // return dec;
   }
 
   // if (Object.defineProperty) {
@@ -127,18 +130,8 @@ export class TextDecoder {
    * @return {string} The decoded string.
    */
   decode(input: ArrayBuffer | ArrayLike<number> | SharedArrayBuffer | Uint8Array | undefined, options: object | undefined): string {
-    let bytes: Uint8Array;
-    if (input) {
-      if (input instanceof ArrayBuffer) {
-        bytes = new Uint8Array(input);
-      } else if ('buffer' in input && input.buffer instanceof ArrayBuffer) {
-        bytes = new Uint8Array(input.buffer,
-          input.byteOffset,
-          input.byteLength);
-      } else {
-        bytes = new Uint8Array(0);
-      }
-    }
+
+    const bytes = getBytesFromInput(input);
 
     options = ToDictionary(options);
 
@@ -215,39 +208,58 @@ export class TextDecoder {
       this._decoder = null;
     }
 
-    // A TextDecoder object also has an associated serialize stream
-    // algorithm...
-    /**
-     * @param {!Array.<number>} stream
-     * @return {string}
-     * @this {TextDecoder}
-     */
-    function serializeStream(stream: Array<number>): string {
-      // 1. Let token be the result of reading from stream.
-      // (Done in-place on array, rather than as a stream)
-
-      // 2. If encoding is UTF-8, UTF-16BE, or UTF-16LE, and ignore
-      // BOM flag and BOM seen flag are unset, run these subsubsteps:
-      if (includes(['UTF-8', 'UTF-16LE', 'UTF-16BE'], this._encoding.name) &&
-        !this._ignoreBOM && !this._BOMseen) {
-        if (stream.length > 0 && stream[0] === 0xFEFF) {
-          // 1. If token is U+FEFF, set BOM seen flag.
-          this._BOMseen = true;
-          stream.shift();
-        } else if (stream.length > 0) {
-          // 2. Otherwise, if token is not end-of-stream, set BOM seen
-          // flag and append token to stream.
-          this._BOMseen = true;
-        } else {
-          // 3. Otherwise, if token is not end-of-stream, append token
-          // to output.
-          // (no-op)
-        }
-      }
-      // 4. Otherwise, return output.
-      return codePointsToString(stream);
-    }
-
-    return serializeStream.call(this, output);
+    return this.serializeStream(output);
   }
+
+  // A TextDecoder object also has an associated serialize stream
+  // algorithm...
+  /**
+   * @param {!Array.<number>} stream
+   * @return {string}
+   * @this {TextDecoder}
+   */
+  private serializeStream(stream: Array<number>): string {
+    // 1. Let token be the result of reading from stream.
+    // (Done in-place on array, rather than as a stream)
+
+    // 2. If encoding is UTF-8, UTF-16BE, or UTF-16LE, and ignore
+    // BOM flag and BOM seen flag are unset, run these subsubsteps:
+    if (includes(['UTF-8', 'UTF-16LE', 'UTF-16BE'], this._encoding.name) &&
+      !this._ignoreBOM && !this._BOMseen) {
+      if (stream.length > 0 && stream[0] === 0xFEFF) {
+        // 1. If token is U+FEFF, set BOM seen flag.
+        this._BOMseen = true;
+        stream.shift();
+      } else if (stream.length > 0) {
+        // 2. Otherwise, if token is not end-of-stream, set BOM seen
+        // flag and append token to stream.
+        this._BOMseen = true;
+      } else {
+        // 3. Otherwise, if token is not end-of-stream, append token
+        // to output.
+        // (no-op)
+      }
+    }
+    // 4. Otherwise, return output.
+    return codePointsToString(stream);
+  }
+}
+
+function isBufferInstance(input: any) {
+  return input instanceof ArrayBuffer || input instanceof SharedArrayBuffer
+}
+
+function getBytesFromInput(input: ArrayBuffer | ArrayLike<number> | SharedArrayBuffer | Uint8Array): Uint8Array {
+
+  if (typeof input !== 'object') return new Uint8Array(0);
+
+  if (isBufferInstance(input)) {
+    return new Uint8Array(input);
+  }
+
+  if ('buffer' in input && isBufferInstance(input.buffer)) {
+    return new Uint8Array(input.buffer, input.byteOffset, input.byteLength);
+  }
+
+  return new Uint8Array(0);
 }
