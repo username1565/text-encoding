@@ -37,6 +37,7 @@
     "jest": "^26.0.1",
     "puppeteer": "^3.0.4",
     "rollup": "^2.8.2",
+    "typescript": "^3.8.3",
     "uglify-js": "^3.9.2"
   },
   "scripts": {
