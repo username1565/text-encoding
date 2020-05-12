@@ -293,29 +293,24 @@ const encodings: {
         {
           "labels": [
             "ansi_x3.4-1968",
+            "ascii",
             "cp1252",
             "cp819",
+            "csisolatin1",
             "ibm819",
-            "iso-ir-100",
-            "windows-1252",
-            "x-cp1252"
-          ],
-          "name": "windows-1252"
-        },
-        {
-          "labels": [
-            "ascii",
-            "us-ascii",
             "iso-8859-1",
+            "iso-ir-100",
             "iso8859-1",
             "iso88591",
             "iso_8859-1",
             "iso_8859-1:1987",
             "l1",
             "latin1",
-            "csisolatin1",
+            "us-ascii",
+            "windows-1252",
+            "x-cp1252"
           ],
-          "name": "iso-8859-1"
+          "name": "windows-1252"
         },
         {
           "labels": [

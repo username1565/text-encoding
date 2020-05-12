@@ -65,8 +65,9 @@ export class TextEncoder {
           ' Did you forget to include encoding-indexes.js first?');
       }
       this._encoding = encoding;
-    } else if (["iso-8859-1", "ISO-8859-1", "latin-1", "latin1", "LATIN-1", "LATIN1"].indexOf(label) !== -1) {
-      this._encoding = getEncoding('iso-8859-1');
+    // EXPERIMENTAL_CODE
+    // } else if (["iso-8859-1", "ISO-8859-1", "latin-1", "latin1", "LATIN-1", "LATIN1"].indexOf(label) !== -1) {
+    //   this._encoding = getEncoding('iso-8859-1');
     } else {
       // Standard behavior.
       this._encoding = getEncoding('utf-8');
