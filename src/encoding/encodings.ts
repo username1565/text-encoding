@@ -27,15 +27,17 @@ export function encoderError(code_point: number): number {
  * @return {?{name:string,labels:Array.<string>}}
  */
 export function getEncoding(label: string): { name: string; labels: Array<string>; } | null {
+  
   // 1. Remove any leading and trailing ASCII whitespace from label.
-  label = String(label).trim().toLowerCase();
+  const keyLabel = String(label).trim().toLowerCase();
 
   // 2. If label is an ASCII case-insensitive match for any of the
   // labels listed in the table below, return the corresponding
   // encoding, and failure otherwise.
-  if (Object.prototype.hasOwnProperty.call(label_to_encoding, label)) {
-    return label_to_encoding[label];
+  if (keyLabel in label_to_encoding) {
+    return label_to_encoding[keyLabel];
   }
+
   return null;
 }
 

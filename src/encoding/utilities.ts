@@ -21,7 +21,7 @@ export function includes(array: Array<any>, item: any): boolean {
  * @param {*} o
  * @return {Object}
  */
-export function ToDictionary(o: any): object {
+export function ToDictionary(o: any): { [x: string]: any } {
   if (o === undefined) return {};
   if (o === Object(o)) return o;
   throw TypeError('Could not convert argument to dictionary');
