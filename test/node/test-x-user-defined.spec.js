@@ -6,7 +6,7 @@ const {
 } = require('../../util/assert-package.js');
 
 require('../../dist/umd/encoding-indexes');
-const { TextDecoder, TextEncoder } = require('../../dist/umd/encoding');
+const { TextDecoder, TextEncoder } = require('../../dist/cjs/encoding');
 
 describe('x-user-defined encoding', () => {
   it('x-user-defined encoding', () => {
