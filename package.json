@@ -53,7 +53,7 @@
     "test": "yarn test:serve && jest",
     "test:only": "jest"
   },
-  "dependencies": {
-    "uglify-js": "^3.9.2"
+  "jest": {
+    "testEnvironment": "./__test-utils__/custom-jest-environment.js"
   }
 }
