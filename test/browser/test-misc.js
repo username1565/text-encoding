@@ -285,11 +285,11 @@ test(function() {
   assert_equals(decoder.decode(buffer), chars,
                'Decoding from ArrayBuffer should match expected text.');
 
-  ['Uint8Array', 'Int8Array', 'Uint8ClampedArray',
-   'Uint16Array', 'Int16Array',
-   'Uint32Array', 'Int32Array',
-   'Float32Array', 'Float64Array'].forEach(function(typeName) {
-     var type = self[typeName];
+  [Uint8Array, Int8Array, Uint8ClampedArray,
+    Uint16Array, Int16Array,
+    Uint32Array, Int32Array,
+    Float32Array, Float64Array].forEach(type => {
+    var typeName = `${typeName}`;
 
      var array = new type(buffer);
      assert_equals(decoder.decode(array), chars,
