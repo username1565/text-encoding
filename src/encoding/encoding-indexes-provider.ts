@@ -5,21 +5,21 @@ export type EncodingIndexMap = {
 };
 
 declare const encodingIndexes: EncodingIndexMap;
-declare const TextEncodingIndexes: EncodingIndexMap;
+declare const TextEncodingIndexes: { encodingIndexes: EncodingIndexMap };
 
 let _encodingIndexes: EncodingIndexMap;
 
 function checkForEncodingIndexes(): EncodingIndexMap {
 
   if (typeof TextEncodingIndexes !== 'undefined')
-    return TextEncodingIndexes;
+    return TextEncodingIndexes.encodingIndexes;
 
   const glo = getGlobalScope();
 
   if (!glo) return null;
 
   if ('TextEncodingIndexes' in glo)
-    return global['TextEncodingIndexes'];
+    return global['TextEncodingIndexes']['encodingIndexes'];
 
   if ('encoding-indexes' in glo)
     return global['encodingIndexes'];
