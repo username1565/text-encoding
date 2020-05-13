@@ -1,7 +1,6 @@
 import { Stream } from "../../common/Stream";
 import { decoderError } from "../../encoding/encodings";
 import { finished } from "../../encoding/finished";
-import { index } from "../../encoding/indexes";
 import { end_of_stream, isASCIIByte } from "../../encoding/terminology";
 
 /**
@@ -14,7 +13,7 @@ export class SingleByteDecoder {
 
   readonly fatal: boolean;
 
-  constructor(index: Array<number>, options: { fatal: boolean; }) {
+  constructor(private readonly index: Array<number>, options: { fatal: boolean; }) {
     this.fatal = options.fatal;
   }
 
@@ -37,10 +36,10 @@ export class SingleByteDecoder {
 
     // 3. Let code point be the index code point for byte − 0x80 in
     // index single-byte.
-    const code_point = index[bite - 0x80];
+    const code_point = this.index[bite - 0x80];
 
     // 4. If code point is null, return error.
-    if (code_point === null)
+    if (!code_point)
       return decoderError(this.fatal);
 
     // 5. Return a code point whose value is code point.

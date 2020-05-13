@@ -178,7 +178,7 @@ export class TextDecoder {
       if (result === finished)
         break;
 
-      if (result !== null) {
+      if (result) {
         if (Array.isArray(result))
           output.push.apply(output, /**@type {!Array.<number>}*/(result));
         else
@@ -196,7 +196,7 @@ export class TextDecoder {
         result = this._decoder.handler(input_stream, input_stream.read());
         if (result === finished)
           break;
-        if (result === null)
+        if (!result)
           continue;
         if (Array.isArray(result))
           output.push.apply(output, /**@type {!Array.<number>}*/(result));

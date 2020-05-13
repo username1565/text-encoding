@@ -386,8 +386,8 @@ test(function() {
   assert_array_equals([].slice.call(encoder.encode(0)), [48]);
 }, 'encode() called with falsy arguments (polyfill bindings)');
 
-// test(function() {
-//   // Regression test for https://github.com/inexorabletash/text-encoding/issues/59
-//   assert_array_equals(
-//     new TextEncoding.TextDecoder('windows-1255').decode(new Uint8Array([0xCA])), '\u05BA');
-// }, 'windows-1255 map 0xCA to U+05BA');
+test(function() {
+  // Regression test for https://github.com/inexorabletash/text-encoding/issues/59
+  assert_array_equals(
+    new TextEncoding.TextDecoder('windows-1255').decode(new Uint8Array([0xCA])), '\u05BA');
+}, 'windows-1255 map 0xCA to U+05BA');
