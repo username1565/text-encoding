@@ -39,6 +39,10 @@ jobs:
       
       - name: Build the package
         run: |
+          cp README.md ./dist
+          cp LICENSE.md ./dist
+          cp package.json ./dist
+          cd ./dist
           npm pack
           mv zxing-library-*.tgz package.tgz
       
@@ -71,7 +75,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      
+        
       - name: Download build artifacts
         uses: actions/download-artifact@v1
         with:
@@ -80,11 +84,13 @@ jobs:
       - name: Get repository name
         run:   echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")
         shell: bash
+      
+      - name: Install JQ for JSON handling
+        run: sudo apt-get install jq
   
       - name: Rename NPM package
         run: |
-          mkdir ./package
-          tar -xzf ./pack-artifact/package.tgz --directory ./package/
+          tar -xzf ./pack-artifact/package.tgz
           cd ./package
           mv package.json temp.json
           jq -r '.name |= "@zxing-js/text-encoding"' temp.json > package.json
