@@ -51,6 +51,7 @@
     "build:umd:encoding:min": "cd dist/umd && uglifyjs --compress --mangle --screw-ie8 --comments -o encoding.min.js -- encoding.js && gzip encoding.min.js -c > encoding.min.js.gz",
     "build:umd:indexes": "rollup dist/esm/encoding-indexes.js -f umd --name TextEncodingIndexes -p @rollup/plugin-node-resolve -o dist/umd/encoding-indexes.js",
     "build:umd:indexes:min": "cd dist/umd && uglifyjs --compress --mangle --screw-ie8 --comments -o encoding-indexes.min.js -- encoding-indexes.js && gzip encoding-indexes.min.js -c > encoding-indexes.min.js.gz",
+    "serve": "yarn hs -p 8000 -c-1",
     "test:serve": "yarn testharness:update && ./test-server.sh",
     "test": "yarn test:serve && jest",
     "test:only": "jest",
