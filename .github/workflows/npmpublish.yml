@@ -44,7 +44,7 @@ jobs:
           cp package.json ./dist
           cd ./dist
           npm pack
-          mv zxing-library-*.tgz package.tgz
+          mv text-encoding-*.tgz package.tgz
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v1
@@ -83,6 +83,9 @@ jobs:
           
       - name: Get repository name
         run:   echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")
+        shell: bash
+
+      - run:   echo "$REPOSITORY_NAME"
         shell: bash
       
       - name: Install JQ for JSON handling
