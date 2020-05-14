@@ -8,7 +8,7 @@ const {
   assert_true,
   assert_array_equals,
   assert_throws,
-} = require('../../util/assert-package.js');
+} = require('../assert-package.js');
 
 require('../../dist/umd/encoding-indexes');
 const { TextDecoder, TextEncoder } = require('../../dist/cjs/encoding');

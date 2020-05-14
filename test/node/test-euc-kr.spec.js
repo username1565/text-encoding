@@ -3,7 +3,7 @@
 
 const {
   assert_equals,
-} = require('../../util/assert-package.js');
+} = require('../assert-package.js');
 
 require('../../dist/umd/encoding-indexes');
 const { TextDecoder } = require('../../dist/cjs/encoding');
