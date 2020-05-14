@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: pack-artifact
-          path: ./package.tgz
+          path: ./dist/package.tgz
 
   publish-npm:
     needs: build
