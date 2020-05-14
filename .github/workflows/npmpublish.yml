@@ -44,7 +44,7 @@ jobs:
           cp package.json ./dist
           cd ./dist
           npm pack
-          mv text-encoding-*.tgz package.tgz
+          mv zxing-text-encoding-*.tgz package.tgz
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v1
