@@ -1,5 +1,5 @@
 {
-  "name": "@zxing/text-encoding",
+  "name": "@username1565/text-encoding",
   "author": "Joshua Bell <inexorabletash@gmail.com>",
   "contributors": [
     "Joshua Bell <inexorabletash@gmail.com>",
@@ -12,14 +12,14 @@
     "Pierre Queinnec <pierre@queinnec.org>",
     "Zack Weinberg <zackw@panix.com>"
   ],
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Polyfill for the Encoding Living Standard's API.",
   "private": false,
   "main": "cjs/encoding.js",
   "browser": "es2015/encoding.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zxing-js/text-encoding.git"
+    "url": "https://github.com/username1565/text-encoding.git"
   },
   "keywords": [
     "encoding",
