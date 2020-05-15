@@ -15,8 +15,8 @@
   "version": "0.8.0",
   "description": "Polyfill for the Encoding Living Standard's API.",
   "private": false,
-  "main": "dist/cjs/encoding.js",
-  "browser": "dist/es2015/encoding.js",
+  "main": "cjs/encoding.js",
+  "browser": "es2015/encoding.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/zxing-js/text-encoding.git"
