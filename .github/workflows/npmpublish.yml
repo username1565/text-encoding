@@ -44,7 +44,7 @@ jobs:
           cp package.json ./dist
           cd ./dist
           npm pack
-          mv zxing-text-encoding-*.tgz package.tgz
+          mv username1565-text-encoding-*.tgz package.tgz
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v1
@@ -67,7 +67,9 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
 
-      - run: npm publish ./pack-artifact/package.tgz --access public
+      - run: 
+          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+          npm publish ./pack-artifact/package.tgz --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
@@ -96,7 +98,7 @@ jobs:
           tar -xzf ./pack-artifact/package.tgz
           cd ./package
           mv package.json temp.json
-          jq -r '.name |= "@zxing-js/text-encoding"' temp.json > package.json
+          jq -r '.name |= "@username1565/text-encoding"' temp.json > package.json
           rm temp.json
 
       - uses: actions/setup-node@v1
