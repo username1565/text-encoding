@@ -67,9 +67,15 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
 
-      - run: |
-          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-          npm publish ./pack-artifact/package.tgz --access public
+      - name: Set token
+        run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: NPM publish
+        run: npm publish ./pack-artifact/package.tgz --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
 
   publish-gpr:
     needs: build
