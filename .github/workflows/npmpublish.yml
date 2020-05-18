@@ -69,10 +69,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - run: npm ci
-      - name: Set token
-        run: |
-          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" |
-          npm publish ./pack-artifact/package.tgz --access public
+      - name: NPM publish
+        run: npm publish ./pack-artifact/package.tgz --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
