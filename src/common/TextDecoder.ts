@@ -127,7 +127,7 @@ export class TextDecoder {
    * @param {Object=} options
    * @return {string} The decoded string.
    */
-  decode(input: ArrayBuffer | ArrayLike<number> | SharedArrayBuffer | Uint8Array | undefined, options: object | undefined): string {
+  decode(input: ArrayBuffer | ArrayLike<number> | Uint8Array | undefined, options: object | undefined): string {
 
     const bytes = getBytesFromInput(input);
 
@@ -244,10 +244,15 @@ export class TextDecoder {
 }
 
 function isBufferInstance(input: any) {
-  return input instanceof ArrayBuffer || input instanceof SharedArrayBuffer
+  try {
+    return input instanceof ArrayBuffer
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
 }
 
-function getBytesFromInput(input: ArrayBuffer | ArrayLike<number> | SharedArrayBuffer | Uint8Array): Uint8Array {
+function getBytesFromInput(input: ArrayBuffer | ArrayLike<number> | Uint8Array): Uint8Array {
 
   if (typeof input !== 'object') return new Uint8Array(0);
 
