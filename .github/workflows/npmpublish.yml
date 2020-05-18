@@ -68,7 +68,6 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
 
-      - run: npm ci
       - name: NPM publish
         run: npm publish ./pack-artifact/package.tgz --access public
         env:
