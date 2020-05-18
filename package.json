@@ -12,7 +12,7 @@
     "Pierre Queinnec <pierre@queinnec.org>",
     "Zack Weinberg <zackw@panix.com>"
   ],
-  "version": "0.8.7",
+  "version": "0.8.8",
   "description": "Polyfill for the Encoding Living Standard's API.",
   "private": false,
   "main": "cjs/encoding.js",
