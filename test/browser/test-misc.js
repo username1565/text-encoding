@@ -4,7 +4,7 @@
 var THE_ENCODING = ['utf-8'];
 
 var LEGACY_ENCODINGS = [
-  'ibm866', 'iso-8859-2', 'iso-8859-3', 'iso-8859-4', 'iso-8859-5',
+  'ibm866', 'iso-8859-1', 'iso-8859-2', 'iso-8859-3', 'iso-8859-4', 'iso-8859-5',
   'iso-8859-6', 'iso-8859-7', 'iso-8859-8', 'iso-8859-10',
   'iso-8859-13', 'iso-8859-14', 'iso-8859-15', 'iso-8859-16', 'koi8-r',
   'koi8-u', 'macintosh', 'windows-874', 'windows-1250', 'windows-1251',
@@ -92,12 +92,14 @@ test(function() {
 
 test(function() {
   var encodings = [
-    { label: 'utf-8', encoding: 'utf-8' },
-    { label: 'utf-16', encoding: 'utf-16le' },
-    { label: 'utf-16le', encoding: 'utf-16le' },
-    { label: 'utf-16be', encoding: 'utf-16be' },
-    { label: 'ascii', encoding: 'windows-1252' },
-    { label: 'iso-8859-1', encoding: 'windows-1252' }
+      { label: 'utf-8', 		encoding: 'utf-8' 			},
+      { label: 'utf-16',		encoding: 'utf-16le' 		},
+      { label: 'utf-16le',		encoding: 'utf-16le' 		},
+      { label: 'utf-16be',		encoding: 'utf-16be' 		},
+      { label: 'cp819',			encoding: 'windows-1252' 	},
+      { label: 'x-cp1252',		encoding: 'windows-1252' 	},
+      { label: 'ascii', 		encoding: 'iso-8859-1' 		},
+      { label: 'iso-8859-1',	encoding: 'iso-8859-1' 		}
   ];
 
   encodings.forEach(
@@ -163,11 +165,14 @@ test(function() {
 }, 'Byte-order marks');
 
 test(function() {
-  assert_equals(new TextEncoding.TextDecoder('utf-8').encoding, 'utf-8'); // canonical case
-  assert_equals(new TextEncoding.TextDecoder('UTF-16').encoding, 'utf-16le'); // canonical case and name
-  assert_equals(new TextEncoding.TextDecoder('UTF-16BE').encoding, 'utf-16be'); // canonical case and name
-  assert_equals(new TextEncoding.TextDecoder('iso8859-1').encoding, 'windows-1252'); // canonical case and name
-  assert_equals(new TextEncoding.TextDecoder('iso-8859-1').encoding, 'windows-1252'); // canonical case and name
+    assert_equals(new TextDecoder().encoding,				'utf-8');			// canonical case
+    assert_equals(new TextDecoder('utf-8').encoding,		'utf-8');			// canonical case
+    assert_equals(new TextDecoder('UTF-16').encoding,		'utf-16le');		// canonical case and name
+    assert_equals(new TextDecoder('UTF-16BE').encoding,		'utf-16be');		// canonical case and name
+    assert_equals(new TextDecoder('cp1252').encoding,		'windows-1252');	// canonical case and name
+    assert_equals(new TextDecoder('windows-1252').encoding,	'windows-1252');	// canonical case and name
+    assert_equals(new TextDecoder('iso8859-1').encoding,	'iso-8859-1');		// canonical case and name
+    assert_equals(new TextDecoder('iso-8859-1').encoding,	'iso-8859-1');		// canonical case and name
 }, 'Encoding names');
 
 test(function() {
