@@ -46,7 +46,7 @@ describe('TextDecoder spec', () => {
 
     const nodeBuffer = new Buffer(256); //create buffer with bytelength 256 bytes
     for (var i = 0 ; i < 256 ; i++) {	//fill this by 256
-        buf[i] = i;							//consecutive bytes
+        nodeBuffer[i] = i;							//consecutive bytes
     }
 
     const latin1String = new TextDecoder('iso-8859-1').decode(nodeBuffer);	//decode buffer to "iso-8859-1"-encoded string
