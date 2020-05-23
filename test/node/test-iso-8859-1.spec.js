@@ -2,6 +2,7 @@ const {
   assert_equals,
 } = require('../assert-package.js');
 
+require('../../dist/umd/encoding-indexes');
 const { TextDecoder, TextEncoder } = require('../../dist/cjs/encoding');
 
 describe('TextDecoder spec', () => {
