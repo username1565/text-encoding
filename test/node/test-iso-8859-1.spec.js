@@ -44,12 +44,12 @@ describe('TextDecoder spec', () => {
                   'ð'+        'ñ'+        'ò'+        'ó'+        'ô'+        'õ'+        'ö'+        '÷'+        'ø'+        'ù'+        'ú'+        'û'+        'ü'+        'ý'+        'þ'+        'ÿ'
 ;
 
-    const nodeBuffer = new Buffer(256); //create buffer with bytelength 256 bytes
+    const allBytes = new Uint8Array(256); //create buffer with bytelength 256 bytes
     for (var i = 0 ; i < 256 ; i++) {	//fill this by 256
-        nodeBuffer[i] = i;							//consecutive bytes
+        allBytes[i] = i;							//consecutive bytes
     }
 
-    const latin1String = new TextDecoder('iso-8859-1').decode(nodeBuffer);	//decode buffer to "iso-8859-1"-encoded string
+    const latin1String = new TextDecoder('iso-8859-1').decode(allBytes);	//decode buffer to "iso-8859-1"-encoded string
     assert_equals(latin_1_alphabet_string, latin1String);					//compare this string with alphabet-string.
 
     const encodedLatin1Bytes = new TextEncoder('latin1').encode(latin_1_alphabet_string);	//encode this string back to bytes.
