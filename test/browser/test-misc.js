@@ -165,14 +165,14 @@ test(function() {
 }, 'Byte-order marks');
 
 test(function() {
-    assert_equals(new TextDecoder().encoding,				'utf-8');			// canonical case
-    assert_equals(new TextDecoder('utf-8').encoding,		'utf-8');			// canonical case
-    assert_equals(new TextDecoder('UTF-16').encoding,		'utf-16le');		// canonical case and name
-    assert_equals(new TextDecoder('UTF-16BE').encoding,		'utf-16be');		// canonical case and name
-    assert_equals(new TextDecoder('cp1252').encoding,		'windows-1252');	// canonical case and name
-    assert_equals(new TextDecoder('windows-1252').encoding,	'windows-1252');	// canonical case and name
-    assert_equals(new TextDecoder('iso8859-1').encoding,	'iso-8859-1');		// canonical case and name
-    assert_equals(new TextDecoder('iso-8859-1').encoding,	'iso-8859-1');		// canonical case and name
+    assert_equals(new TextEncoding.TextDecoder().encoding,	'utf-8');			// canonical case
+    assert_equals(new TextEncoding.TextDecoder('utf-8'			).encoding,		'utf-8');			// canonical case
+    assert_equals(new TextEncoding.TextDecoder('UTF-16'			).encoding,		'utf-16le');		// canonical case and name
+    assert_equals(new TextEncoding.TextDecoder('UTF-16BE'		).encoding,		'utf-16be');		// canonical case and name
+    assert_equals(new TextEncoding.TextDecoder('cp1252'			).encoding,		'windows-1252');	// canonical case and name
+    assert_equals(new TextEncoding.TextDecoder('windows-1252'	).encoding,		'windows-1252');	// canonical case and name
+    assert_equals(new TextEncoding.TextDecoder('iso8859-1'		).encoding,		'iso-8859-1');		// canonical case and name
+    assert_equals(new TextEncoding.TextDecoder('iso-8859-1'		).encoding,		'iso-8859-1');		// canonical case and name
 }, 'Encoding names');
 
 test(function() {
