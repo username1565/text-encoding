@@ -1,5 +1,5 @@
 {
-  "name": "@username1565/text-encoding",
+  "name": "@zxing/text-encoding",
   "author": "Joshua Bell <inexorabletash@gmail.com>",
   "contributors": [
     "Joshua Bell <inexorabletash@gmail.com>",
@@ -19,7 +19,7 @@
   "browser": "es2015/encoding.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/username1565/text-encoding.git"
+    "url": "https://github.com/zxing-js/text-encoding.git"
   },
   "keywords": [
     "encoding",
