@@ -5,8 +5,15 @@ declare const window;
 
 // Polyfills browser
 if (typeof window !== 'undefined') {
-  if (!('TextDecoder' in window)) window['TextDecoder'] = TextDecoder;
-  if (!('TextEncoder' in window)) window['TextEncoder'] = TextEncoder;
+  const checkUndefined = key => !(key in window) 
+    || typeof window[key] === 'undefined'
+    || window[key] === null;
+
+  if (checkUndefined('TextDecoder')) 
+    window['TextDecoder'] = TextDecoder;
+
+  if (checkUndefined('TextEncoder')) 
+    window['TextEncoder'] = TextEncoder;
 }
 
 export { TextDecoder, TextEncoder };

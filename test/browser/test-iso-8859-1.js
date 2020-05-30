@@ -6,18 +6,17 @@ test(
     var allBytes = new Uint8Array(256); for(var i = 0; i<256; i++){allBytes[i] = i;}			//generate Uint8Array with all possible 256 consecutive byte-values.
 	var s = ''; for(var i = 0; i<allBytes.length; i++){s += String.fromCharCode(allBytes[i]);}	//generate iso-8859-1 string with char-codes of this bytes.
 
-	var decoded_latin1_string = new TextEncoding.TextDecoder("iso-8859-1").decode(allBytes);	//decode allBytes "latin1"-string
+	var decoded_latin1_string = new TextDecoder("iso-8859-1").decode(allBytes);	//decode allBytes "latin1"-string
     assert_equals(decoded_latin1_string, s);													//compare decoded string and generated string.
 	
-	var encoded_allBytes = new TextEncoding.
-		TextEncoder(									//encode into new Uint8Array
+	var encoded_allBytes = new TextEncoder(									//encode into new Uint8Array
 			"iso-8859-1",								//"iso-8859-1"-encoded string
 			{NONSTANDARD_allowLegacyEncoding: true}		//as legacy encoding
 		)
 		.encode(decoded_latin1_string)					//from this value
 	;
 
-	var decoded_latin1_string_again = new TextEncoding.TextDecoder("iso-8859-1").decode(encoded_allBytes);	//and decode this string back, by using TextDecoder.
+	var decoded_latin1_string_again = new TextDecoder("iso-8859-1").decode(encoded_allBytes);	//and decode this string back, by using TextDecoder.
     
     assert_equals(decoded_latin1_string_again, s);		//compare the second decoded string and generated string.
 
