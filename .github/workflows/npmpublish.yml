@@ -44,7 +44,7 @@ jobs:
           cp package.json ./dist
           cd ./dist
           npm pack
-          mv username1565-text-encoding-*.tgz package.tgz
+          mv zxing-text-encoding-*.tgz package.tgz
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v1
@@ -98,7 +98,7 @@ jobs:
           tar -xzf ./pack-artifact/package.tgz
           cd ./package
           mv package.json temp.json
-          jq -r '.name |= "@username1565/text-encoding"' temp.json > package.json
+          jq -r '.name |= "@zxing-js/text-encoding"' temp.json > package.json
           rm temp.json
 
       - uses: actions/setup-node@v1
