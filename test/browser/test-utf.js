@@ -110,7 +110,7 @@ function test_utf_roundtrip () {
     decoded = TD_U8.decode(encoded);
     assert_string_equals(block, decoded, "UTF-8 round trip " + block_tag);
 
-    // test TextEncoder(UTF-8) against the older idiom
+    // testTextEncoder(UTF-8) against the older idiom
     var exp_encoded = encode_utf8(block);
     assert_array_equals(encoded, exp_encoded,
                         "UTF-8 reference encoding " + block_tag);

@@ -24,11 +24,15 @@ var ASCII_SUPERSETS = THE_ENCODING.concat(LEGACY_ENCODINGS)
 test(function() {
   assert_false(/\[native code\]/.test(String(TextDecoder)),
                'Native implementation present - polyfill not tested.');
+  assert_true(Boolean(TextDecoder),
+              'TextDecoder is not defined at all.');
 }, 'TextDecoder Polyfill (will fail if natively supported)');
 
 test(function() {
   assert_false(/\[native code\]/.test(String(TextEncoder)),
                'Native implementation present - polyfill not tested.');
+  assert_true(Boolean(TextEncoder),
+              'TextEncoder is not defined at all.');
 }, 'TextEncoder Polyfill (will fail if natively supported)');
 
 test(function() {
