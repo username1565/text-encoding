@@ -7,3 +7,4 @@
 #
 # The closest thing to "core.autocrlf=input" is to use "text=auto" in ".gitattributes."
 *               text=auto
+*               text
