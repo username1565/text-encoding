@@ -87,11 +87,11 @@ function test_utf_roundtrip () {
   var BLOCK_SIZE = 0x1000;
   var SKIP_SIZE = 31;
 
-  var TD_U16LE = new TextEncoding.TextDecoder("UTF-16LE");
-  var TD_U16BE = new TextEncoding.TextDecoder("UTF-16BE");
+  var TD_U16LE = new TextDecoder("UTF-16LE");
+  var TD_U16BE = new TextDecoder("UTF-16BE");
 
-  var TE_U8    = new TextEncoding.TextEncoder();
-  var TD_U8    = new TextEncoding.TextDecoder("UTF-8");
+  var TE_U8    = new TextEncoder();
+  var TD_U8    = new TextDecoder("UTF-8");
 
   for (var i = MIN_CODEPOINT; i < MAX_CODEPOINT; i += BLOCK_SIZE) {
     var block_tag = cpname(i) + " - " + cpname(i + BLOCK_SIZE - 1);
@@ -110,7 +110,7 @@ function test_utf_roundtrip () {
     decoded = TD_U8.decode(encoded);
     assert_string_equals(block, decoded, "UTF-8 round trip " + block_tag);
 
-    // testTextEncoding.TextEncoder(UTF-8) against the older idiom
+    // testTextEncoder(UTF-8) against the older idiom
     var exp_encoded = encode_utf8(block);
     assert_array_equals(encoded, exp_encoded,
                         "UTF-8 reference encoding " + block_tag);
@@ -137,7 +137,7 @@ function test_utf_samples () {
 
   cases.forEach(
     function(t) {
-      var decoded = new TextEncoding.TextDecoder(t.encoding)
+      var decoded = new TextDecoder(t.encoding)
                         .decode(new Uint8Array(t.expected));
       assert_equals(decoded, sample,
                     "expected equal decodings - " + t.encoding);

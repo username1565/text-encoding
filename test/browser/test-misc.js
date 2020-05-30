@@ -24,26 +24,30 @@ var ASCII_SUPERSETS = THE_ENCODING.concat(LEGACY_ENCODINGS)
 test(function() {
   assert_false(/\[native code\]/.test(String(TextDecoder)),
                'Native implementation present - polyfill not tested.');
+  assert_true(Boolean(TextDecoder),
+              'TextDecoder is not defined at all.');
 }, 'TextDecoder Polyfill (will fail if natively supported)');
 
 test(function() {
   assert_false(/\[native code\]/.test(String(TextEncoder)),
                'Native implementation present - polyfill not tested.');
+  assert_true(Boolean(TextEncoder),
+              'TextEncoder is not defined at all.');
 }, 'TextEncoder Polyfill (will fail if natively supported)');
 
 test(function() {
-  assert_true('encoding' in new TextEncoding.TextEncoder());
-  assert_equals(new TextEncoding.TextEncoder().encoding, 'utf-8');
+  assert_true('encoding' in new TextEncoder());
+  assert_equals(new TextEncoder().encoding, 'utf-8');
 
-  assert_true('encoding' in new TextEncoding.TextDecoder());
-  assert_equals(new TextEncoding.TextDecoder().encoding, 'utf-8');
-  assert_equals(new TextEncoding.TextDecoder('utf-16le').encoding, 'utf-16le');
-  assert_true('fatal' in new TextEncoding.TextDecoder());
-  assert_false(new TextEncoding.TextDecoder('utf-8').fatal);
-  assert_true(new TextEncoding.TextDecoder('utf-8', {fatal: true}).fatal);
-  assert_true('ignoreBOM' in new TextEncoding.TextDecoder());
-  assert_false(new TextEncoding.TextDecoder('utf-8').ignoreBOM);
-  assert_true(new TextEncoding.TextDecoder('utf-8', {ignoreBOM: true}).ignoreBOM);
+  assert_true('encoding' in new TextDecoder());
+  assert_equals(new TextDecoder().encoding, 'utf-8');
+  assert_equals(new TextDecoder('utf-16le').encoding, 'utf-16le');
+  assert_true('fatal' in new TextDecoder());
+  assert_false(new TextDecoder('utf-8').fatal);
+  assert_true(new TextDecoder('utf-8', {fatal: true}).fatal);
+  assert_true('ignoreBOM' in new TextDecoder());
+  assert_false(new TextDecoder('utf-8').ignoreBOM);
+  assert_true(new TextDecoder('utf-8', {ignoreBOM: true}).ignoreBOM);
 }, 'Attributes');
 
 test(function() {
@@ -57,8 +61,8 @@ test(function() {
 
   badStrings.forEach(
     function(t) {
-      var encoded = new TextEncoding.TextEncoder().encode(t.input);
-      var decoded = new TextEncoding.TextDecoder().decode(encoded);
+      var encoded = new TextEncoder().encode(t.input);
+      var decoded = new TextDecoder().decode(encoded);
       assert_equals(t.expected, decoded);
     });
 }, 'bad data');
@@ -85,7 +89,7 @@ test(function() {
   bad.forEach(
     function(t) {
       assert_throws({name: 'TypeError'}, function() {
-        new TextEncoding.TextDecoder(t.encoding, {fatal: true}).decode(new Uint8Array(t.input));
+        new TextDecoder(t.encoding, {fatal: true}).decode(new Uint8Array(t.input));
       });
     });
 }, 'fatal flag');
@@ -102,8 +106,8 @@ test(function() {
 
   encodings.forEach(
     function(test) {
-      assert_equals(new TextEncoding.TextDecoder(test.label.toLowerCase()).encoding, test.encoding);
-      assert_equals(new TextEncoding.TextDecoder(test.label.toUpperCase()).encoding, test.encoding);
+      assert_equals(new TextDecoder(test.label.toLowerCase()).encoding, test.encoding);
+      assert_equals(new TextDecoder(test.label.toUpperCase()).encoding, test.encoding);
     });
 }, 'Encoding names are case insensitive');
 
@@ -120,54 +124,54 @@ test(function() {
   var string = 'z\xA2\u6C34\uD834\uDD1E\uDBFF\uDFFD'; // z, cent, CJK water, G-Clef, Private-use character
 
   // missing BOMs
-  assert_equals(new TextEncoding.TextDecoder('utf-8').decode(new Uint8Array(utf8)), string);
-  assert_equals(new TextEncoding.TextDecoder('utf-16le').decode(new Uint8Array(utf16le)), string);
-  assert_equals(new TextEncoding.TextDecoder('utf-16be').decode(new Uint8Array(utf16be)), string);
+  assert_equals(new TextDecoder('utf-8').decode(new Uint8Array(utf8)), string);
+  assert_equals(new TextDecoder('utf-16le').decode(new Uint8Array(utf16le)), string);
+  assert_equals(new TextDecoder('utf-16be').decode(new Uint8Array(utf16be)), string);
 
   // matching BOMs
-  assert_equals(new TextEncoding.TextDecoder('utf-8').decode(new Uint8Array(utf8_bom.concat(utf8))), string);
-  assert_equals(new TextEncoding.TextDecoder('utf-16le').decode(new Uint8Array(utf16le_bom.concat(utf16le))), string);
-  assert_equals(new TextEncoding.TextDecoder('utf-16be').decode(new Uint8Array(utf16be_bom.concat(utf16be))), string);
+  assert_equals(new TextDecoder('utf-8').decode(new Uint8Array(utf8_bom.concat(utf8))), string);
+  assert_equals(new TextDecoder('utf-16le').decode(new Uint8Array(utf16le_bom.concat(utf16le))), string);
+  assert_equals(new TextDecoder('utf-16be').decode(new Uint8Array(utf16be_bom.concat(utf16be))), string);
 
   // matching BOMs split
-  var decoder8 = new TextEncoding.TextDecoder('utf-8');
+  var decoder8 = new TextDecoder('utf-8');
   assert_equals(decoder8.decode(new Uint8Array(utf8_bom.slice(0, 1)), {stream: true}), '');
   assert_equals(decoder8.decode(new Uint8Array(utf8_bom.slice(1).concat(utf8))), string);
   assert_equals(decoder8.decode(new Uint8Array(utf8_bom.slice(0, 2)), {stream: true}), '');
   assert_equals(decoder8.decode(new Uint8Array(utf8_bom.slice(2).concat(utf8))), string);
-  var decoder16le = new TextEncoding.TextDecoder('utf-16le');
+  var decoder16le = new TextDecoder('utf-16le');
   assert_equals(decoder16le.decode(new Uint8Array(utf16le_bom.slice(0, 1)), {stream: true}), '');
   assert_equals(decoder16le.decode(new Uint8Array(utf16le_bom.slice(1).concat(utf16le))), string);
-  var decoder16be = new TextEncoding.TextDecoder('utf-16be');
+  var decoder16be = new TextDecoder('utf-16be');
   assert_equals(decoder16be.decode(new Uint8Array(utf16be_bom.slice(0, 1)), {stream: true}), '');
   assert_equals(decoder16be.decode(new Uint8Array(utf16be_bom.slice(1).concat(utf16be))), string);
 
   // mismatching BOMs
-  assert_not_equals(new TextEncoding.TextDecoder('utf-8').decode(new Uint8Array(utf16le_bom.concat(utf8))), string);
-  assert_not_equals(new TextEncoding.TextDecoder('utf-8').decode(new Uint8Array(utf16be_bom.concat(utf8))), string);
-  assert_not_equals(new TextEncoding.TextDecoder('utf-16le').decode(new Uint8Array(utf8_bom.concat(utf16le))), string);
-  assert_not_equals(new TextEncoding.TextDecoder('utf-16le').decode(new Uint8Array(utf16be_bom.concat(utf16le))), string);
-  assert_not_equals(new TextEncoding.TextDecoder('utf-16be').decode(new Uint8Array(utf8_bom.concat(utf16be))), string);
-  assert_not_equals(new TextEncoding.TextDecoder('utf-16be').decode(new Uint8Array(utf16le_bom.concat(utf16be))), string);
+  assert_not_equals(new TextDecoder('utf-8').decode(new Uint8Array(utf16le_bom.concat(utf8))), string);
+  assert_not_equals(new TextDecoder('utf-8').decode(new Uint8Array(utf16be_bom.concat(utf8))), string);
+  assert_not_equals(new TextDecoder('utf-16le').decode(new Uint8Array(utf8_bom.concat(utf16le))), string);
+  assert_not_equals(new TextDecoder('utf-16le').decode(new Uint8Array(utf16be_bom.concat(utf16le))), string);
+  assert_not_equals(new TextDecoder('utf-16be').decode(new Uint8Array(utf8_bom.concat(utf16be))), string);
+  assert_not_equals(new TextDecoder('utf-16be').decode(new Uint8Array(utf16le_bom.concat(utf16be))), string);
 
   // ignore BOMs
-  assert_equals(new TextEncoding.TextDecoder('utf-8', {ignoreBOM: true})
+  assert_equals(new TextDecoder('utf-8', {ignoreBOM: true})
                 .decode(new Uint8Array(utf8_bom.concat(utf8))),
                 '\uFEFF' + string);
-  assert_equals(new TextEncoding.TextDecoder('utf-16le', {ignoreBOM: true})
+  assert_equals(new TextDecoder('utf-16le', {ignoreBOM: true})
                 .decode(new Uint8Array(utf16le_bom.concat(utf16le))),
                 '\uFEFF' + string);
-  assert_equals(new TextEncoding.TextDecoder('utf-16be', {ignoreBOM: true})
+  assert_equals(new TextDecoder('utf-16be', {ignoreBOM: true})
                 .decode(new Uint8Array(utf16be_bom.concat(utf16be))),
                 '\uFEFF' + string);
 }, 'Byte-order marks');
 
 test(function() {
-  assert_equals(new TextEncoding.TextDecoder('utf-8').encoding, 'utf-8'); // canonical case
-  assert_equals(new TextEncoding.TextDecoder('UTF-16').encoding, 'utf-16le'); // canonical case and name
-  assert_equals(new TextEncoding.TextDecoder('UTF-16BE').encoding, 'utf-16be'); // canonical case and name
-  assert_equals(new TextEncoding.TextDecoder('iso8859-1').encoding, 'windows-1252'); // canonical case and name
-  assert_equals(new TextEncoding.TextDecoder('iso-8859-1').encoding, 'windows-1252'); // canonical case and name
+  assert_equals(new TextDecoder('utf-8').encoding, 'utf-8'); // canonical case
+  assert_equals(new TextDecoder('UTF-16').encoding, 'utf-16le'); // canonical case and name
+  assert_equals(new TextDecoder('UTF-16BE').encoding, 'utf-16be'); // canonical case and name
+  assert_equals(new TextDecoder('iso8859-1').encoding, 'windows-1252'); // canonical case and name
+  assert_equals(new TextDecoder('iso-8859-1').encoding, 'windows-1252'); // canonical case and name
 }, 'Encoding names');
 
 test(function() {
@@ -195,7 +199,7 @@ test(function() {
 
   cases.forEach(function(c) {
     for (var len = 1; len <= 5; ++len) {
-      var out = '', decoder = new TextEncoding.TextDecoder(c.encoding);
+      var out = '', decoder = new TextDecoder(c.encoding);
       for (var i = 0; i < c.encoded.length; i += len) {
         var sub = [];
         for (var j = i; j < c.encoded.length && j < i + len; ++j) {
@@ -212,7 +216,7 @@ test(function() {
 test(function() {
   var jis = [0x82, 0xC9, 0x82, 0xD9, 0x82, 0xF1];
   var expected = '\u306B\u307B\u3093'; // Nihon
-  assert_equals(new TextEncoding.TextDecoder('shift_jis').decode(new Uint8Array(jis)), expected);
+  assert_equals(new TextDecoder('shift_jis').decode(new Uint8Array(jis)), expected);
 }, 'Shift_JIS Decode');
 
 test(function() {
@@ -228,29 +232,29 @@ test(function() {
       string += String.fromCharCode(i);
       bytes.push(i);
     }
-    var ascii_encoded = new TextEncoding.TextEncoder().encode(string);
-    assert_equals(new TextEncoding.TextDecoder(encoding).decode(ascii_encoded), string, encoding);
+    var ascii_encoded = new TextEncoder().encode(string);
+    assert_equals(new TextDecoder(encoding).decode(ascii_encoded), string, encoding);
   });
 }, 'Supersets of ASCII decode ASCII correctly');
 
 test(function() {
-  assert_throws({name: 'TypeError'}, function() { new TextEncoding.TextDecoder('utf-8', {fatal: true}).decode(new Uint8Array([0xff])); });
+  assert_throws({name: 'TypeError'}, function() { new TextDecoder('utf-8', {fatal: true}).decode(new Uint8Array([0xff])); });
   // This should not hang:
-  new TextEncoding.TextDecoder('utf-8').decode(new Uint8Array([0xff]));
+  new TextDecoder('utf-8').decode(new Uint8Array([0xff]));
 
-  assert_throws({name: 'TypeError'}, function() { new TextEncoding.TextDecoder('utf-16le', {fatal: true}).decode(new Uint8Array([0x00])); });
+  assert_throws({name: 'TypeError'}, function() { new TextDecoder('utf-16le', {fatal: true}).decode(new Uint8Array([0x00])); });
   // This should not hang:
-  new TextEncoding.TextDecoder('utf-16le').decode(new Uint8Array([0x00]));
+  new TextDecoder('utf-16le').decode(new Uint8Array([0x00]));
 
-  assert_throws({name: 'TypeError'}, function() { new TextEncoding.TextDecoder('utf-16be', {fatal: true}).decode(new Uint8Array([0x00])); });
+  assert_throws({name: 'TypeError'}, function() { new TextDecoder('utf-16be', {fatal: true}).decode(new Uint8Array([0x00])); });
   // This should not hang:
-  new TextEncoding.TextDecoder('utf-16be').decode(new Uint8Array([0x00]));
+  new TextDecoder('utf-16be').decode(new Uint8Array([0x00]));
 }, 'Non-fatal errors at EOF');
 
 test(function() {
   LEGACY_ENCODINGS.forEach(function(encoding) {
-    assert_equals(new TextEncoding.TextDecoder(encoding).encoding, encoding);
-    assert_equals(new TextEncoding.TextEncoder(encoding).encoding, 'utf-8');
+    assert_equals(new TextDecoder(encoding).encoding, encoding);
+    assert_equals(new TextEncoder(encoding).encoding, 'utf-8');
   });
 }, 'Legacy encodings supported only for decode, not encode');
 
@@ -263,22 +267,22 @@ test(function() {
     'iso-2022-kr'
   ].forEach(function(encoding) {
 
-    assert_equals(new TextEncoding.TextEncoder(encoding).encoding, 'utf-8');
+    assert_equals(new TextEncoder(encoding).encoding, 'utf-8');
 
     assert_throws({name: 'RangeError'},
                   function() {
-                    var decoder = new TextEncoding.TextDecoder(encoding, {fatal: true});
+                    var decoder = new TextDecoder(encoding, {fatal: true});
                   });
 
     assert_throws({name: 'RangeError'},
                   function() {
-                    var decoder = new TextEncoding.TextDecoder(encoding, {fatal: false});
+                    var decoder = new TextDecoder(encoding, {fatal: false});
                     });
   });
 }, 'Replacement encoding labels');
 
 test(function() {
-  var decoder = new TextEncoding.TextDecoder();
+  var decoder = new TextDecoder();
   var bytes = [65, 66, 97, 98, 99, 100, 101, 102, 103, 104, 67, 68, 69, 70, 71, 72];
   var chars = 'ABabcdefghCDEFGH';
   var buffer = new Uint8Array(bytes).buffer;
@@ -304,29 +308,29 @@ test(function() {
 
 test(function() {
   assert_throws({name: 'RangeError'},
-                function() { new TextEncoding.TextDecoder(null); },
+                function() { new TextDecoder(null); },
                 'Null should coerce to "null" and be invalid encoding name.');
 
   assert_throws({name: 'TypeError'},
-                function() { new TextEncoding.TextDecoder('utf-8', ''); },
+                function() { new TextDecoder('utf-8', ''); },
                 'String should not coerce to dictionary.');
 
   assert_throws({name: 'TypeError'},
-                function() { new TextEncoding.TextDecoder('utf-8').decode(null, ''); },
+                function() { new TextDecoder('utf-8').decode(null, ''); },
                 'String should not coerce to dictionary.');
 }, 'Invalid parameters');
 
 test(function() {
   assert_array_equals(
     [249,249,249,233,249,235,249,234,164,81,164,202],
-    new TextEncoding.TextEncoder('big5', {NONSTANDARD_allowLegacyEncoding: true})
+    new TextEncoder('big5', {NONSTANDARD_allowLegacyEncoding: true})
       .encode('\u2550\u255E\u2561\u256A\u5341\u5345'));
 }, 'NONSTANDARD - regression tests');
 
 test(function() {
   // Regression test for https://github.com/whatwg/encoding/issues/22
   assert_equals(
-    new TextEncoding.TextDecoder('gb18030').decode(new Uint8Array([
+    new TextDecoder('gb18030').decode(new Uint8Array([
       0xA8, 0xBC,
       0x81, 0x35, 0xF4, 0x37
     ])), '\u1E3F\uE7C7');
@@ -335,7 +339,7 @@ test(function() {
 test(function() {
   // Regression test for https://github.com/whatwg/encoding/issues/22
   assert_array_equals(
-    new TextEncoding.TextEncoder('gb18030', {NONSTANDARD_allowLegacyEncoding: true})
+    new TextEncoder('gb18030', {NONSTANDARD_allowLegacyEncoding: true})
       .encode('\u1E3F\uE7C7'),
     [
       0xA8, 0xBC,
@@ -348,7 +352,7 @@ test(function() {
   assert_throws(
     new TypeError,
     function() {
-      new TextEncoding.TextEncoder('gb18030', {NONSTANDARD_allowLegacyEncoding: true})
+      new TextEncoder('gb18030', {NONSTANDARD_allowLegacyEncoding: true})
         .encode('\uE5E5');
     });
 }, 'NONSTANDARD - gb18030: U+E5E5 (encoding)');
@@ -357,7 +361,7 @@ test(function() {
 test(function() {
   // Regression test for https://github.com/whatwg/encoding/issues/15
   var encoder =
-      new TextEncoding.TextEncoder('iso-2022-jp', {NONSTANDARD_allowLegacyEncoding: true});
+      new TextEncoder('iso-2022-jp', {NONSTANDARD_allowLegacyEncoding: true});
 
   [
     //'\u000E', '\u000F', '\u001B',
@@ -370,8 +374,8 @@ test(function() {
 
 ['utf-16le', 'utf-16be'].forEach(function(encoding) {
   test(function() {
-    var encoder = new TextEncoding.TextEncoder(encoding, {NONSTANDARD_allowLegacyEncoding: true});
-    var decoder = new TextEncoding.TextDecoder(encoding);
+    var encoder = new TextEncoder(encoding, {NONSTANDARD_allowLegacyEncoding: true});
+    var decoder = new TextDecoder(encoding);
 
     var sample = "z\xA2\u6C34\uD834\uDD1E\uDBFF\uDFFD";
 
@@ -381,7 +385,7 @@ test(function() {
 });
 
 test(function() {
-  var encoder = new TextEncoding.TextEncoder();
+  var encoder = new TextEncoder();
   assert_array_equals([].slice.call(encoder.encode(false)), [102, 97, 108, 115, 101]);
   assert_array_equals([].slice.call(encoder.encode(0)), [48]);
 }, 'encode() called with falsy arguments (polyfill bindings)');
@@ -389,5 +393,5 @@ test(function() {
 test(function() {
   // Regression test for https://github.com/inexorabletash/text-encoding/issues/59
   assert_array_equals(
-    new TextEncoding.TextDecoder('windows-1255').decode(new Uint8Array([0xCA])), '\u05BA');
+    new TextDecoder('windows-1255').decode(new Uint8Array([0xCA])), '\u05BA');
 }, 'windows-1255 map 0xCA to U+05BA');

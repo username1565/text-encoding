@@ -37,11 +37,15 @@ describe('Miscellaneous tests', () => {
   it('TextDecoder Polyfill (will fail if natively supported)', () => {
     assert_false(/\[native code\]/.test(String(TextDecoder)),
       'Native implementation present - polyfill not tested.');
+    assert_true(Boolean(TextDecoder),
+      'TextDecoder is not defined at all.');
   });
 
   it('TextEncoder Polyfill (will fail if natively supported)', () => {
     assert_false(/\[native code\]/.test(String(TextEncoder)),
       'Native implementation present - polyfill not tested.');
+    assert_true(Boolean(TextEncoder),
+      'TextEncoder is not defined at all.');
   });
 
   it('Attributes', () => {

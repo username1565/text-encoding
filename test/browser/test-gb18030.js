@@ -7,7 +7,7 @@ test(function() {
   ];
 
   cases.forEach(function(c) {
-    assert_equals(new TextEncoding.TextDecoder('gb18030').decode(new Uint8Array(c.bytes)),
+    assert_equals(new TextDecoder('gb18030').decode(new Uint8Array(c.bytes)),
                   c.string);
   });
 }, 'gb18030 ranges');
