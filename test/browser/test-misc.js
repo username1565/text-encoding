@@ -100,7 +100,7 @@ test(function() {
       { label: 'utf-16',		encoding: 'utf-16le' 		},
       { label: 'utf-16le',		encoding: 'utf-16le' 		},
       { label: 'utf-16be',		encoding: 'utf-16be' 		},
-      { label: 'cp819',			encoding: 'windows-1252' 	},
+      { label: 'cp819',			encoding: 'iso-8859-1' 	}, //this is IANA registered IBM alias for latin-1 encoding
       { label: 'x-cp1252',		encoding: 'windows-1252' 	},
       { label: 'ascii', 		encoding: 'iso-8859-1' 		},
       { label: 'iso-8859-1',	encoding: 'iso-8859-1' 		}
