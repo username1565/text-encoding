@@ -294,8 +294,6 @@ const encodings: {
           "labels": [
             "ansi_x3.4-1968",
             "cp1252",
-            "cp819",
-            "ibm819",
             "windows-1252",
             "x-cp1252"
           ],
@@ -317,7 +315,9 @@ const encodings: {
             "sISOLatin1",
             "csisolatin1",
             "IBM819",
+            "ibm819",
             "CP819",
+            "cp819",
             "latin1",
             "l1",
           ],
